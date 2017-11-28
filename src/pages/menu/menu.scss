@@ -1,0 +1,36 @@
+page-menu {
+    .submit-btn {
+        background: rgb(34, 58, 246);
+        border-radius: 30px !important;
+        border: 1px solid #ffffff;
+      }
+
+      .submit-btn:hover,
+      .submit-btn:focus {
+        background: rgb(109, 113, 227);
+      }
+
+
+      .bg-image 
+      { background-image: url("../assets/imgs/fondoMenu.png"); 
+          background-repeat: no-repeat; 
+          background-position: center; 
+          background-size: cover; 
+      }
+
+      .bg-Perfil 
+      { 
+          background-image: url("../assets/imgs/perfil.png"); 
+          background-repeat: no-repeat; 
+          background-position: center; 
+          background-size: cover; 
+      }
+
+      .bg-Menu 
+      { 
+          background-image: url("../assets/imgs/logo.png"); 
+          background-repeat: no-repeat; 
+          background-position: center; 
+          background-size: cover; 
+      }
+}

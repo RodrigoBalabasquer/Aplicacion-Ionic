@@ -1,0 +1,131 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<ion-header>
+    
+      <ion-navbar>
+    
+          <ion-buttons left>
+              <button ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon></button>
+            </ion-buttons>
+        <ion-title>ABM Alumnos</ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+
+
+<ion-content class="bg-image" padding>
+  
+    <div [hidden]="noRegistro">
+        <button full large ion-button style="background-color: rgb(38, 44, 215);" (click)="registrarAlumno()">AGREGAR ALUMNO</button>
+        <button full large ion-button style="background-color: rgb(38, 44, 215);" (click)="regCsv()">CARGAR LISTADO DE ALUMNOS</button>
+      <div style="height: 70%;width:100%">
+       
+          <div class="table-responsive"  style="height: 70%;width:100%">
+      
+    <table class="table table-sm table-bordered table-dark" style="text-align:center;">
+        <thead style="background-color: rgb(38, 44, 215);">
+          <th>NOMBRE Y APELLIDO</th>
+          <th>SEXO</th>
+          <th>EMAIL</th>
+          <th>MATERIAS</th>
+          <th>DESHABILITAR/HABILITAR</th>
+          
+        </thead>
+        <tbody *ngFor="let item of alumnos">
+          <td *ngIf="item.perfil == 'Alumno'">
+            
+                {{item.nombre}} {{item.apellido}}
+            
+          </td>
+          <td *ngIf="item.perfil == 'Alumno'">
+            
+                {{item.sexo}}
+            
+          </td>
+          <td *ngIf="item.perfil == 'Alumno'">
+             {{item.email}}
+          </td>
+          <td *ngIf="item.perfil == 'Alumno'">
+             
+            <div *ngFor="let materias of item.materias">
+             
+                  {{materias}}
+              
+            </div>
+         
+          </td>
+          <td *ngIf="item.habilitado == true && item.perfil == 'Alumno'">
+            <button ion-button color="danger" (click)="eliminarAlumno(item)">DESHABILITAR</button>
+          </td>
+          <td *ngIf="item.habilitado == false && item.perfil == 'Alumno'">
+            <button ion-button color="secondary" (click)="habilitarAlumno(item)">HABILITAR</button>
+          </td>
+
+        </tbody>
+      </table>
+
+
+
+        </div>
+
+      </div>
+    </div>
+    <div [hidden]="siRegistro">
+        
+        <ion-list style="width:inherit;height:inherit;">
+          <ion-item>
+              <ion-label color="primary" floating>Legajo</ion-label>
+              <ion-input type="number" min="0" [(ngModel)]="legajo"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label color="primary" floating>Nombre</ion-label>
+              <ion-input [(ngModel)]="nombre" placeholder="Nombre"></ion-input>
+          </ion-item>
+          <ion-item>
+                <ion-label color="primary" floating>Apellido</ion-label>
+                <ion-input [(ngModel)]="apellido" placeholder="Apellido"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" floating>Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="password" placeholder="Contraseña"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" floating>Confirmar contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="confPassword" placeholder="Confirmar contraseña"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" floating>Sexo</ion-label>
+            <ion-select [(ngModel)]="sexo">
+              <ion-option value="Masculino">Masculino</ion-option>
+              <ion-option value="Femenino">Femenino</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" floating>Correo electrónico</ion-label>
+            <ion-input [(ngModel)]="email" placeholder="Correo electrónico"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label color="primary" floating>Materias</ion-label>
+              <ion-select [(ngModel)]="materias"  multiple="true">
+                <ion-option id="labiv">Laboratorio IV</ion-option>
+                <ion-option id="metod">Metodología de sistemas I</ion-option>
+                <ion-option id="legis">Legislación</ion-option>
+              </ion-select>
+          </ion-item>
+          <ion-item>
+            <button style="width: 50%; height:50px;" color="secondary" (click)="completarRegistro()" ion-button>Completar registro</button>
+            <button style="width: 50%; height:50px;" color="danger" (click)="cancelar()" ion-button>Cancelar</button>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div [hidden]="sicsv" style="text-align: center">
+        <input type="file" ng2FileSelect [uploader]="uploader">
+        <br>
+        <button ion-button style="width: 50%; height:50px;" (click)="mandarAlServidor()" [disabled]="uploader.queue.length == 0">Enviar listado</button>
+        <br>
+        <button style="width: 50%; height:50px;" color="danger" (click)="cancelar()" ion-button>Cancelar</button>
+      </div>
+</ion-content>
+<ion-fab [hidden]="noRegistro" left bottom>
+    <button ion-fab color="light" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+  </ion-fab>

@@ -1,0 +1,109 @@
+<!--
+  Generated template for the RegistroProAdmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<ion-header>
+    
+      <ion-navbar>
+    
+          <ion-buttons left>
+              <button ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon></button>
+            </ion-buttons>
+        <ion-title>ABM Personal</ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+
+
+<ion-content class="bg-image" padding>
+    <div [hidden]="noRegistro">
+        <button full large ion-button style="background-color:rgb(111, 57, 159)" (click)="registrarPersonal()">AGREGAR PERSONAL</button>
+        <div style="height: 70%;width:100%">
+            
+               <div class="table-responsive"  style="height: 70%;width:100%">
+        <table class="table table-sm table-bordered table-dark" style="text-align: center;">
+            <thead style="background-color:rgb(111, 57, 159)">
+              <th>EMPLEO</th>
+              <th>NOMBRE Y APELLIDO</th>
+              <th>SEXO</th>
+              <th>EMAIL</th>
+              <th>BORRAR</th>
+            </thead>
+            <tbody *ngFor="let item of personal">
+              <td *ngIf="item.perfil == 'Administrativo' || item.perfil == 'Profesor'" >
+                {{item.perfil}}
+              </td>
+              <td *ngIf="item.perfil == 'Administrativo' || item.perfil == 'Profesor'" >
+                {{item.nombre}} {{item.apellido}}
+              </td>
+              <td *ngIf="item.perfil == 'Administrativo' || item.perfil == 'Profesor'" >
+                {{item.sexo}}
+              </td >
+              <td *ngIf="item.perfil == 'Administrativo' || item.perfil == 'Profesor'" >
+                  {{item.email}}
+              </td>
+              <td *ngIf="item.habilitado == true && (item.perfil == 'Administrativo' || item.perfil == 'Profesor')">
+                <button ion-button color="danger" (click)="eliminarPersonal(item)">DESHABILITAR</button>
+              </td>
+              <td *ngIf="item.habilitado == false && (item.perfil == 'Administrativo' || item.perfil == 'Profesor')">
+                <button ion-button color="secondary" (click)="habilitarPersonal(item)">HABILITAR</button>
+              </td>              
+            </tbody>
+          </table>
+        
+        </div>
+        
+              </div>
+       
+    </div>
+    <div [hidden]="siRegistro">
+      <ion-list style="width:inherit;height:inherit;">
+        <ion-item>
+            <ion-label color="primary" floating>Nombre</ion-label>
+            <ion-input [(ngModel)]="nombre" placeholder="Nombre"></ion-input>
+        </ion-item>
+        <ion-item>
+              <ion-label color="primary" floating>Apellido</ion-label>
+              <ion-input [(ngModel)]="apellido" placeholder="Apellido"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="password" placeholder="Contraseña"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Confirmar contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="confPassword" placeholder="Confirmar contraseña"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Sexo</ion-label>
+          <ion-select [(ngModel)]="sexo">
+            <ion-option value="Masculino">Masculino</ion-option>
+            <ion-option value="Femenino">Femenino</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Correo electrónico</ion-label>
+          <ion-input [(ngModel)]="email" placeholder="Correo electrónico"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label color="primary" floating>Perfil</ion-label>
+            <ion-select [(ngModel)]="perfil">
+              <ion-option value="Profesor">Profesor</ion-option>
+              <ion-option value="Administrativo">Administrativo</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+          <button style="width: 50%; height:50px;" color="secondary" (click)="completarRegistro()" ion-button>Completar registro</button>
+          <button style="width: 50%; height:50px;" color="danger" (click)="cancelar()" ion-button>Cancelar</button>
+        </ion-item>
+      </ion-list>
+    </div>
+</ion-content>
+<ion-fab [hidden]="noRegistro" left bottom>
+    <button ion-fab color="light" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+  </ion-fab>
+

@@ -1,0 +1,46 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content class="login-content" padding>
+  <ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col width-67>
+      <img src="assets/imgs/logo.png" width="125x" height="125px">
+      <h4>ADMINISTRADOR DE GESTIÓN</h4>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <div class="login-box">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            
+            <ion-item>
+              <ion-input type="text" placeholder="Email" [(ngModel)]="email" required></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-input type="password" placeholder="Password" [(ngModel)]="password" required></ion-input>
+            </ion-item>
+            
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button class="submit-btn" (click)="loginComun()" full [disabled]="email==null || password==null || email=='' || password==''">Iniciar sesión</button>
+          <button ion-button icon-left class="google-btn" (click)="loginGoogle()" color="light" block outline>
+            <ion-icon name="logo-googleplus"></ion-icon>
+            Iniciar sesión con Google
+          </button>
+          <button ion-button class="iniciosesionrapido-btn" (click)="inicioSesionRapido()" full>Inicio sesión rápido</button>
+        </ion-col>
+      </ion-row>
+  </div>
+
+  <div style="text-align: center;padding-bottom:10px;padding-top:20px;"><h6>Jujuro®</h6></div>
+</ion-content>

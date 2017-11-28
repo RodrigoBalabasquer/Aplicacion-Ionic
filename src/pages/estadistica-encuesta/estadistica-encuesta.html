@@ -1,0 +1,56 @@
+<!--
+  Generated template for the EstadisticaEncuestaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>-Encuestas-</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content class="bg-image" padding>
+    
+    <div [hidden]="tabla">
+     <ion-item style="text-align: center;">
+      <h2><label>Estadisticas de: <br> "{{Encuesta}}"</label></h2>
+      <h4><label>Pregunta:<br> "{{pregunta}}"</label></h4>
+     </ion-item>
+     <br>
+    <ion-list *ngIf="tipo == 'P'">
+          <ion-item *ngFor="let i of ListaRespuestas"> 
+          <!--<label> {{i.respuesta}} {{i.cantidad}} </label>-->
+          <label> {{i}}</label>
+          </ion-item>
+    </ion-list>
+    <ion-item *ngIf="tipo != 'P'">
+   <canvas style="width:200px;height:200px;" id="myChart">
+   </canvas>
+    </ion-item>
+    </div>
+
+    <div [hidden]="!tabla">
+      <ion-item style="text-align: center;">
+      <h2><label>Estadisticas de: <br> "{{Encuesta}}"</label></h2>
+      </ion-item>
+      <table class="table table-sm table-bordered table-dark" style="text-align: center;">
+            <thead style="background-color:rgb(111, 57, 159)">
+              <th *ngFor="let key of preguntas"><h2>{{key}}</h2></th>
+            </thead>
+            <tbody *ngFor="let item of respuestas">
+              <td *ngFor="let i of item">
+                <h2>{{i}}</h2>
+              </td>
+            </tbody>
+      </table>
+    </div>
+  </ion-content>
+  <ion-fab left bottom>
+      <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+  </ion-fab>

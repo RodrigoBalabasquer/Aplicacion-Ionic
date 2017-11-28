@@ -1,0 +1,91 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Modificar Encuestas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-image" padding>
+  <div [hidden]="!Agregar">
+  <ion-list>
+            <ion-item>
+              <ion-label color="primary" fixed>Nombre</ion-label>
+              <ion-input type="text" placeholder="Nombre de la encuesta" [(ngModel)]="nombre" required></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label color="primary" fixed>Horas</ion-label>
+              <ion-input type="number" placeholder="Cantidad de horas" [(ngModel)]="horas" required></ion-input>
+            </ion-item> 
+            <ion-item>
+              <ion-label>Modificar Horas</ion-label>
+              <ion-checkbox [(ngModel)]="cambio"></ion-checkbox>
+            </ion-item>
+            <ion-item>
+              <ion-label style="color: black">Materias</ion-label>
+              <ion-select [(ngModel)]="materia" interface="popover">
+                <ion-option *ngFor="let key of Materias" value="{{key}}">{{key}}</ion-option>
+              </ion-select>
+            </ion-item>
+  </ion-list>
+  <table class="table table-sm table-bordered table-dark" style="text-align: center;">
+            <thead style="background-color:rgb(111, 57, 159)">
+              <th>PREGUNTAS</th>
+              <th>BORRAR</th>
+            </thead>
+            <tbody *ngFor="let item of preguntas">
+              <td >
+                <h3>{{item.question}}</h3>
+              </td>
+              <td>
+                <button ion-button color="danger" (click)="eliminarPregunta(item.indice)">ELIMINAR</button>
+              </td>
+            </tbody>
+  </table>
+  <button ion-button style="height: 50px;border-radius:10px;" (click)="HabilitarAgregarQuestion()" color="encuestas" full >Agregar Pregunta</button>
+  <button ion-button style="height: 50px;border-radius:10px;" (click)="ModificarQuestion()" color="encuestas" full [disabled]="nombre == '' || (horas == null || horas <= 0 && cambio == true)">Modificar Cuestionario</button>
+  </div>
+
+  <div [hidden]="Agregar">
+      <ion-list style="width:inherit;height:inherit;">
+        <ion-item>
+              <ion-label style="color: black">Formato</ion-label>
+                <ion-select [(ngModel)]="formato"  interface="popover">
+                  <ion-option value="U">Respuesta con opciones</ion-option>
+                  <ion-option value="M">Respuestas única</ion-option>
+                  <ion-option value="P">Respuesta propia</ion-option>
+                </ion-select>
+        </ion-item>
+        
+        <ion-item *ngIf="formato=='U'">
+              <ion-label style="color: black">Cantidad de Respuestas</ion-label>
+              <ion-select [(ngModel)]="cantidad" interface="popover">
+                <ion-option value="2">2</ion-option>
+                <ion-option value="3">3</ion-option>
+                <ion-option value="4">4</ion-option>
+                <ion-option value="5">5</ion-option>
+              </ion-select>
+        </ion-item>
+        
+        <ion-item>
+          <ion-input type="text" placeholder="Pregunta" [(ngModel)]="question" required></ion-input>
+        </ion-item> 
+        <br>
+        <ion-list *ngFor="let item of cant">
+          <ion-item *ngIf="item<=cantidad && formato=='U'" style="padding-top:0px;padding-bottom:0px;">
+            <ion-input type="text" placeholder="Respuesta {{item}}" [(ngModel)]=option[item] required></ion-input>
+            </ion-item> 
+        </ion-list>
+        <ion-item>
+          <button style="width: 50%; height:50px;" color="secondary" (click)="completarPregunta()" ion-button>Agregar</button>
+          <button style="width: 50%; height:50px;" color="danger" (click)="cancelar()" ion-button>Cancelar</button>
+        </ion-item>
+      </ion-list>
+    </div>
+</ion-content>
+<ion-fab left bottom>
+    <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+</ion-fab>

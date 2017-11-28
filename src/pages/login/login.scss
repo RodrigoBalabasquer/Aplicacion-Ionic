@@ -1,0 +1,73 @@
+page-login {
+    .login-content {
+        background: #56CA96;
+     
+        .logo-row {
+          padding-top: 0px;
+          padding-bottom: 0px;
+        }
+     
+        .login-box {
+          background: #399F8B;
+          padding: 0px 0px 0px 0px;
+          margin-top: 5px;
+        }
+     
+        ion-row {
+           align-items: center;
+           text-align: center;
+         }
+     
+         ion-item {
+             border-radius: 30px !important;
+             padding-left: 30px !important;
+             font-size: 0.9em;
+             margin-bottom: 5px;
+             border: 1px solid #ffffff;
+             border-bottom: 0px !important;
+             box-shadow: none !important;
+         }
+     
+         .signup-col {
+           margin: 0px 16px 2px 16px;
+           padding-bottom: 0px;
+         }
+     
+         .item-inner {
+           border-bottom-color: #ffffff !important;
+           box-shadow: none !important;
+         }
+     
+         .submit-btn {
+           background: rgb(34, 58, 246);
+           height: 50px;
+           border-radius: 30px !important;
+           border: 1px solid #ffffff;
+         }
+
+         .iniciosesionrapido-btn {
+          background: rgb(246, 175, 34);
+          height: 50px;
+          border-radius: 30px !important;
+          border: 1px solid #ffffff;
+        }
+
+         .google-btn {
+            background: #DD4B39;
+            height: 50px;
+            border-radius: 30px !important;
+            border: 1px solid #ffffff;
+          }
+          .google-btn:hover,
+          .google-btn:focus {
+            background: rgb(206, 116, 105);
+          }
+     
+         .register-btn {
+           color: #ffffff;
+           font-size: 1.2em;
+         }
+      }
+
+      h4 { color: #ffffff; font-family: 'Raleway',sans-serif; font-size: 30px; font-weight: 40; line-height: 30px;  text-align: center; text-transform: uppercase; }
+}

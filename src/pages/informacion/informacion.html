@@ -1,0 +1,70 @@
+<!--
+  Generated template for the InformacionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Informacion del aula</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content class="bg-image" padding>
+    <div style="text-align: center;">
+      <ion-label style="background-color: #399F8B;height: 40px;font-size: 25px">
+          Aula {{Aula.Numero}}
+        </ion-label>
+      
+      <ion-label style="background-color: #399F8B;height: 40px;font-size: 25px">
+          Materia: {{Aula.Materia}}
+        </ion-label>
+      
+      <br>
+
+      <ion-item *ngIf="perfilActual == 'Alumno'">
+        <ion-label>
+      Profesor: {{Aula.Profesor}}
+        </ion-label>
+      </ion-item>
+
+      <table *ngIf="perfilActual == 'Profesor'" class="table"  style="text-align: center;border-radius:70px;">
+        <thead style="background-color: #399F8B;">
+          <th>LEGAJO</th>
+          <th>NOMBRE Y APELLIDO</th>
+        </thead>
+        <tbody *ngFor="let item of Aula.Alumnos" style="background-color:white;">
+          <td>
+            {{item.legajo}}
+          </td>
+          <td>
+            {{item.nombre}}, {{item.apellido}}
+          </td>
+        </tbody>
+      </table>  
+
+      <!--<ion-item *ngIf="perfilActual == 'Profesor'">
+        <ion-list>
+          <ion-list-header>Lista de alumnos:
+          </ion-list-header>
+          <ion-item *ngFor="let i of Aula.Alumnos"> 
+          <label> {{i.nombre}} {{i.apellido}} </label>
+          <br>
+          <label> Legajo: {{i.legajo}} </label>
+          </ion-item>
+        </ion-list>
+  </ion-item>-->
+    </div>
+    <ion-item *ngIf="perfilActual == 'Profesor'">
+      <canvas style="width:100px;height:100px;padding-right: 20%;" *ngIf="perfilActual == 'Profesor'" id="myChart">
+      </canvas>
+    </ion-item>
+  </ion-content>
+  <ion-fab left bottom>
+      <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+  </ion-fab>

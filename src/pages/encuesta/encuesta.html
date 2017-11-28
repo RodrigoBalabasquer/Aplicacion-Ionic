@@ -1,0 +1,46 @@
+
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Encuesta</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content class="bg-image" padding>
+    <ion-list *ngIf="display" style="text-align:center;">
+          <ion-item *ngFor="let item of Cuestionario.Preguntas" >
+            <ion-list>
+              <ion-item *ngIf="item.tipo == 'P'">
+                <label>{{item.question}}</label>
+              </ion-item>
+              <ion-item *ngIf="item.tipo == 'P'">
+                
+                  <ion-input  type="text" placeholder="Ingrese respuesta" [(ngModel)]="respuestas[item.indice]" ></ion-input>
+              </ion-item>
+  
+              <ion-item *ngIf="item.tipo == 'U'">
+                <label>{{item.question}}</label>
+              </ion-item>
+              <ion-item *ngIf="item.tipo == 'U'">
+                <ion-list *ngFor="let i of item.opciones">
+                  <input color="encuestas" [(ngModel)]="respuestas[item.indice]" value="{{i}}" type="radio" name="i"> <label>{{ i }}</label>
+                </ion-list>
+              </ion-item>
+  
+              <ion-item *ngIf="item.tipo == 'M'">
+                <label>{{item.question}}</label>
+                <input color="encuestas" style="margin-left: 5%" [(ngModel)]="respuestas[item.indice]"  type="checkbox" name="check">
+              </ion-item>
+            </ion-list> 
+          </ion-item>
+          <ion-item>
+          <button style="width: 50%; height:50px;" color="secondary" (click)="enviar()" ion-button>Enviar respuesta</button>
+          <button style="width: 50%; height:50px;" color="danger" (click)="cancelar()" ion-button>Cancelar</button>
+          </ion-item>
+      </ion-list>
+     
+            
+  </ion-content>
+  

@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<ion-header>
+  <ion-navbar>
+        
+              <ion-buttons left>
+                  <button ion-button icon-only menuToggle>
+                    <ion-icon name="menu"></ion-icon></button>
+                </ion-buttons>
+            <ion-title>Gestor de encuestas</ion-title>
+          </ion-navbar>
+</ion-header>
+<ion-content class="bg-image" padding>
+    <button full large ion-button style="background-color:rgb(111, 57, 159)" (click)="crearEncuesta()">AGREGAR Encuesta</button>
+        <div style="height: 70%;width:100%">
+            
+               <div class="table-responsive"  style="height: 70%;width:100%">
+        <table class="table table-sm table-bordered table-dark" style="text-align: center;">
+            <thead style="background-color:rgb(111, 57, 159)">
+              <th>Nombre</th>
+              <th>Materia</th>
+              <th>FINALIZACIÓN</th>
+              <th>BORRAR</th>
+              <th>MODIFICAR</th>
+            </thead>
+            <tbody *ngFor="let item of Cuestionarios">
+              <td >
+                {{item.Nombre}}
+              </td>
+              <td>
+                {{item.Materia}}
+              </td>
+              <td>
+                {{item.FechaFin}}
+              </td >
+              <td>
+                <button ion-button color="danger" (click)="eliminarEncuesta(item)">ELIMINAR</button>
+              </td>
+              <td>
+                <button ion-button color="secondary" (click)="modificarEncuesta(item)">EDITAR</button>
+              </td>              
+            </tbody>
+          </table>
+        
+        </div>
+        </div>
+</ion-content>
+<ion-fab left bottom>
+    <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+</ion-fab>

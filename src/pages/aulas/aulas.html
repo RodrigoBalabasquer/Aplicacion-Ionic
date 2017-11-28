@@ -1,0 +1,27 @@
+<!--
+  Generated template for the AulasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Aulas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-image" padding>
+
+<h2 style="text-align: center;padding-top:40px;"><label>Lista de aulas:</label></h2>
+
+<ion-list *ngFor="let item of ListaAulas ">
+    <button ion-button  full color="encuestas" style="height:50px;border-radius:20px;" (click)="IrAula(item.Numero)">{{item.Numero}}</button>
+</ion-list>
+
+</ion-content>
+<ion-fab left bottom>
+  <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+</ion-fab>

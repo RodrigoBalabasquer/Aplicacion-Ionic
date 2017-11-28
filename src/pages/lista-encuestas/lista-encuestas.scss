@@ -1,0 +1,43 @@
+page-lista-encuestas {
+    .bg-image 
+    { 
+        background-image: url("../assets/imgs/fondoMenu.png"); 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        background-size: cover; 
+    }
+
+    
+}
+.alertHizoCuestionario{
+    .alert-wrapper
+    {
+      text-align: center;
+      background: rgb(149, 0, 255);
+    }
+    .alert-button-group
+    { 
+    padding-right: 100px;
+      background-color: black;
+      .button-inner
+      {
+
+        color: white;
+        font-size: 2em;
+      }
+    }
+    .alert-title
+    {
+    color: white;
+    text-align: center;
+   
+    font-size: 2.0em;
+    }
+    .alert-sub-title
+    {
+   
+    text-align: center;
+    color: white;
+    font-size: 1.8em;
+    }
+  }

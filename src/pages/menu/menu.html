@@ -1,0 +1,40 @@
+
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title>Menú principal</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="danger" (click)="logOut()" style="border-radius: 100%;">
+          <ion-icon name="log-out"></ion-icon>&nbsp;&nbsp;
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-image" padding>
+
+  <div style="text-align: center;">
+    <div class="card">
+      <img src="assets/imgs/perfil.png" style="width:100%;border-radius:20px"> 
+      <!--Seleccionar Foto<input type="file" ng2FileSelect [uploader]="uploader">
+      <br>
+      <button ion-button style="width: 50%; height:50px;" (click)="mandarAlServidor()" [disabled]="uploader.queue.length == 0">Cambiar Foto</button>-->
+      <h1>{{nombreComActual}}</h1>
+      <!--<p class="title">CEO & Founder, Example</p>-->
+      <p>Correo: {{emailActual}}</p>
+      <p>Sexo: {{sexoActual}}</p>
+      <p>Tipo: {{perfilActual}}</p>
+      <br>
+    </div>
+  </div>
+
+</ion-content>
+<ion-fab left bottom>
+  <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+</ion-fab>
+<ion-fab right bottom *ngIf="perfilActual=='Profesor' || perfilActual=='Alumno'">
+  <button ion-fab color="qr" (click)="EscanearCodigo()"><ion-icon ios="ios-qr-scanner" md="md-qr-scanner"></ion-icon></button>
+</ion-fab>

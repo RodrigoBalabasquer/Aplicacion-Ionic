@@ -1,0 +1,128 @@
+<!--
+  Generated template for the ListaAsistenciaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<ion-header>
+
+  <ion-navbar>
+
+      <ion-buttons left>
+          <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon></button>
+        </ion-buttons>
+    <ion-title>Administrar asistencias</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-image" padding>
+  <div style="text-align: center;" [hidden]="filtradoHecho">
+      <ion-list radio-group>
+          <ion-list-header>
+            <img src="assets/imgs/lista.png" width="70px" height="70px">
+            <br>
+           <font size="5px">Listado por:</font>
+          </ion-list-header>
+        
+          <ion-item>
+            <ion-label>Aula</ion-label>
+            <ion-radio (click)="filtrado('aula')"></ion-radio>
+          </ion-item>
+            <ion-item>
+                <ion-label>Materia</ion-label>
+                <ion-radio (click)="filtrado('materia')"></ion-radio>
+              </ion-item>
+        
+              <ion-item>
+                  <ion-label>Profesor</ion-label>
+                  <ion-radio (click)="filtrado('profesor')"></ion-radio>
+                </ion-item>
+        </ion-list>
+    <br>
+    <ion-item *ngIf="opFiltrado == 'aula'">
+        <ion-label>-Aula-</ion-label>
+        <ion-select [(ngModel)]="opcionSeleccionada">
+          <ion-option value="303">303</ion-option>
+          <ion-option value="304">304</ion-option>
+          <ion-option value="305">305</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="opFiltrado == 'materia'">
+        <ion-label>-Materia-</ion-label>
+        <ion-select [(ngModel)]="opcionSeleccionada">
+          <ion-option value="legislacion">Legislación</ion-option>
+          <ion-option value="metodologia">Metodología de sistemas</ion-option>
+          <ion-option value="labiv">Laboratorio IV</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="opFiltrado == 'profesor'">
+        <ion-label>-Profesor-</ion-label>
+        <ion-select [(ngModel)]="opcionSeleccionada">
+          <ion-option value="analia">Buratovich, Analía</ion-option>
+          <ion-option value="evelina">Benavidez, Evelina</ion-option>
+          <ion-option value="octavio">Villegas, Octavio</ion-option>
+        </ion-select>
+    </ion-item>
+    <button ion-button full large color="dark" style="border-radius: 20px" (click)="buscarGeneral()">Listar asistencia</button>
+  </div>
+
+  <div [hidden]="tablaBusqueda">
+      <ion-item>-MATERIA: {{materia}} <br>-PROFESOR: {{profesor}} <br>-AULA: {{aula}}</ion-item>
+      <button ion-button full large style="height: 50px;" color="primary" (click)="tomarAsistencia()">Tomar asistencia</button>
+        <table class="table" style="text-align: center;border-radius:70px;">
+          <thead style="background-color: #399F8B;">
+            <th>LEGAJO</th>
+            <th>NOMBRE Y APELLIDO</th>
+            <th>CANT. FALTAS</th>
+          </thead>
+          <tbody *ngFor="let item of arrayDeAlumnos" style="background-color:white;">
+            <td>
+              {{item.legajo}}
+            </td>
+            <td>
+              {{item.nombre}}, {{item.apellido}}
+            </td>
+            <td>
+              {{item.cantFaltas}}
+            </td>
+          </tbody>
+        </table>
+
+    
+  </div>
+
+  <div [hidden]="tablaTomarAsistencia">
+    <ion-item>-MATERIA: {{materia}} <br>-PROFESOR: {{profesor}} <br>-AULA: {{aula}} <br>-FECHA: {{fechaActual}}</ion-item>
+      <button ion-button full style="height: 50px;" (click)="guardarAsistencia()">Guardar asistencia</button>
+      <table class="table"  style="text-align: center;border-radius:70px;">
+        <thead style="background-color: #399F8B;">
+          <th>LEGAJO</th>
+          <th>NOMBRE Y APELLIDO</th>
+          <th>ASISTIÓ</th>
+        </thead>
+        <tbody *ngFor="let item of arrayDeAlumnosAux" style="background-color:white;">
+          <td>
+            {{item.legajo}}
+          </td>
+          <td>
+            {{item.nombre}}, {{item.apellido}}
+          </td>
+          <td>
+            <ion-checkbox [(ngModel)]="item.asistio"></ion-checkbox>
+          </td>
+        </tbody>
+      </table>  
+   
+
+    
+  </div>
+</ion-content>
+<ion-fab left bottom>
+    <button ion-fab color="dark" (click)="menu()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+</ion-fab>
