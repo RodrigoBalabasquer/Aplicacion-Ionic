@@ -8,6 +8,7 @@ import { ListaAsistenciaPage } from '../lista-asistencia/lista-asistencia';
 import { InformacionPage } from '../informacion/informacion';
 import { EstadisticaEncuestaPage} from '../estadistica-encuesta/estadistica-encuesta';
 import { LoginPage } from '../login/login';
+import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
 
 import { Component } from '@angular/core';
 import { ActionSheetController,IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -110,7 +111,7 @@ export class AulasPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
             }
           },
           {
@@ -152,7 +153,7 @@ export class AulasPage {
           }
         },
         {
-          text: 'Crear encuestas',
+          text: 'Gestor de encuestas',
           icon: 'paper',
           handler: () => {
             this.navCtrl.setRoot(GestorEncuestasPage);
@@ -166,12 +167,19 @@ export class AulasPage {
           }
         },
         {
-            text: 'Ver Aulas',
-            icon: 'md-list',
-            handler: () => {
-              this.navCtrl.setRoot(AulasPage);
-            }
-          },
+          text: 'Ver Aulas',
+          icon: 'md-list',
+          handler: () => {
+            this.navCtrl.setRoot(AulasPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
         {
           text: 'Cerrar menú',
           icon: 'close',
@@ -200,7 +208,7 @@ export class AulasPage {
           text: 'Tomar asistencia',
           icon: 'create',
           handler: () => {
-            this.navCtrl.setRoot(ListaAsistenciaPage,{booleano:false});
+            this.navCtrl.setRoot(ListaAsistenciaPage);
           }
         },
         {
@@ -208,6 +216,13 @@ export class AulasPage {
           icon: 'contacts',
           handler: () => {
             this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
           }
         },
         {

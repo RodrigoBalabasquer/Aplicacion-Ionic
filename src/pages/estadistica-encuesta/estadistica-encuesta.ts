@@ -7,6 +7,8 @@ import { RegistroAlumnoPage } from '../registro-alumno/registro-alumno';
 import { GestorEncuestasPage } from '../gestor-encuestas/gestor-encuestas';
 import { ListaAsistenciaPage } from '../lista-asistencia/lista-asistencia';
 import { RespuestasEncuestaPage} from '../respuestas-encuesta/respuestas-encuesta';
+import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
+import { AulasPage} from '../aulas/aulas';
 import { MenuPage} from '../menu/menu';
 
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -298,7 +300,14 @@ export class EstadisticaEncuestaPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
+            }
+          },
+          {
+            text: 'Ver Aulas',
+            icon: 'md-list',
+            handler: () => {
+              this.navCtrl.setRoot(AulasPage);
             }
           },
           {
@@ -347,6 +356,20 @@ export class EstadisticaEncuestaPage {
           }
         },
         {
+          text: 'Ver Aulas',
+          icon: 'md-list',
+          handler: () => {
+            this.navCtrl.setRoot(AulasPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
           text: 'Cerrar menú',
           icon: 'close',
           role: 'cancel',
@@ -382,6 +405,13 @@ export class EstadisticaEncuestaPage {
           icon: 'contacts',
           handler: () => {
             this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
           }
         },
         {

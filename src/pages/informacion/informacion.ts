@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActionSheetController,IonicPage, NavController, NavParams } from 'ionic-angular';
+import { PopoverController,ActionSheetController,IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ListaEncuestasPage } from '../lista-encuestas/lista-encuestas';
 import { RegistroProAdmPage } from '../registro-pro-adm/registro-pro-adm';
@@ -8,6 +8,8 @@ import { GestorEncuestasPage } from '../gestor-encuestas/gestor-encuestas';
 import { ListaAsistenciaPage } from '../lista-asistencia/lista-asistencia';
 import { RespuestasEncuestaPage } from "../respuestas-encuesta/respuestas-encuesta";
 import { AulasPage } from "../aulas/aulas";
+import {GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
+import { AnuncioPage} from "../anuncio/anuncio";
 import { MenuPage} from '../menu/menu';
 
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -26,13 +28,16 @@ export class InformacionPage {
   perfilActual : any;
   Aulas: AngularFireList<any>;
   aulas: Observable<any>;
+  Anuncios:AngularFireList<any>;
+  anuncios:Observable<any>;
+  listaAnuncios:any[] = [];
   Aula: any={};
   alumnosMetod : any[] = [];
   alumnosLabIV : any[] = [];
   alumnosLegis : any[] = [];
 
   codigo = this.navParams.get("codigo");
-  constructor(public navCtrl: NavController, public navParams: NavParams,public actionSheetCtrl : ActionSheetController, afDB: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public actionSheetCtrl : ActionSheetController, afDB: AngularFireDatabase,public popoverCtrl: PopoverController) {
     this.usuarioActual = JSON.parse(localStorage.getItem("usuario"));
     this.perfilActual = this.usuarioActual.perfil;
 
@@ -99,12 +104,45 @@ export class InformacionPage {
           
         }
       );
-
-   
+      this.Anuncios = afDB.list('Anuncios');
+      this.anuncios = this.Anuncios.valueChanges();
+      this.anuncios.subscribe(
+        anun => {
+          for(let i=0;i<anun.length;i++)
+          {
+            if(this.codigo =="Aula 303")
+            {
+              if(anun[i].Aula == "303")
+              this.listaAnuncios.push(anun[i]);
+            }
+            if(this.codigo =="Aula 304")
+            {
+              if(anun[i].Aula == "304")
+              this.listaAnuncios.push(anun[i]);
+            }
+            if(this.codigo =="Aula 305")
+            {
+              if(anun[i].Aula == "305")
+              this.listaAnuncios.push(anun[i]);
+            }
+          }
+          console.log(this.listaAnuncios);
+        }
+      );
+      
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InformacionPage');
+  }
+
+  MostrarAnuncio(item,myEvent)
+  { 
+    //console.log(item);
+    let popover = this.popoverCtrl.create(AnuncioPage,{"anuncio":item});
+    popover.present({
+      ev: myEvent
+    });
   }
 
   EstadisticaAlumnos()
@@ -179,7 +217,8 @@ export class InformacionPage {
   }
 
   presentActionSheet() {
-    switch (this.perfilActual) {
+    switch (this.perfilActual) 
+    {
       case "Administrador":
         let actionSheetAdm = this.actionSheetCtrl.create({
         title: 'Menú',
@@ -234,7 +273,7 @@ export class InformacionPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
             }
           },
           {
@@ -276,7 +315,7 @@ export class InformacionPage {
           }
         },
         {
-          text: 'Crear encuestas',
+          text: 'Gestor de encuestas',
           icon: 'paper',
           handler: () => {
             this.navCtrl.setRoot(GestorEncuestasPage);
@@ -290,12 +329,19 @@ export class InformacionPage {
           }
         },
         {
-            text: 'Ver Aulas',
-            icon: 'md-list',
-            handler: () => {
-              this.navCtrl.setRoot(AulasPage);
-            }
-          },
+          text: 'Ver Aulas',
+          icon: 'md-list',
+          handler: () => {
+            this.navCtrl.setRoot(AulasPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
         {
           text: 'Cerrar menú',
           icon: 'close',
@@ -308,7 +354,7 @@ export class InformacionPage {
 
     actionSheetProfesor.present();
     break;
-    case "Administrativo":
+  case "Administrativo":
     let actionSheetAdministrativo = this.actionSheetCtrl.create({
       title: 'Menú',
       buttons: [
@@ -332,6 +378,13 @@ export class InformacionPage {
           icon: 'contacts',
           handler: () => {
             this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
           }
         },
         {

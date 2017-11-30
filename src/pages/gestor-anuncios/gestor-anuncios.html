@@ -1,0 +1,75 @@
+<!--
+  Generated template for the GestorAnunciosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Gestor de anuncios</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-image" padding>
+        <div [hidden]="crear">
+        <button full large ion-button style="background-color:rgb(111, 57, 159)" (click)="crearAnuncio()">Crear anuncio</button>
+        <div style="height: 70%;width:100%">
+            <div class="table-responsive"  style="height: 70%;width:100%">
+        <table class="table table-sm table-bordered table-dark" style="text-align: center;">
+            <thead style="background-color:rgb(111, 57, 159)">
+              <th>Anuncios</th>
+              <th>Aula</th>
+              <th>BORRAR</th>
+              <th>MODIFICAR</th>
+            </thead>
+            <tbody *ngFor="let item of ListaDeAnuncios">
+              <td >
+                {{item.Titulo}}
+              </td>
+              <td >
+                {{item.Aula}}
+              </td>
+              <td>
+                <button ion-button color="danger" (click)="eliminarAnuncio(item)">ELIMINAR</button>
+              </td>
+              <td>
+                <button ion-button color="secondary" (click)="modificarAnuncio(item)">EDITAR</button>
+              </td>              
+            </tbody>
+          </table>
+            </div>
+        </div>
+        </div>
+
+        <div [hidden]="!crear" style="font-size: 30px">
+          <ion-label>Cree su anuncio:
+          </ion-label>
+          <ion-item>
+              <ion-input type="string" placeholder="Ingrese titulo" [(ngModel)]="titulo" required></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-input type="string" placeholder="Ingrese contenido" [(ngModel)]="contenido" required></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label>-Aula-</ion-label>
+          <ion-select [(ngModel)]="opcionSeleccionada">
+          <ion-option value="303">303</ion-option>
+          <ion-option value="304">304</ion-option>
+          <ion-option value="305">305</ion-option>
+          </ion-select>
+          </ion-item>
+          <ion-item>
+          <button style="width: 50%; height:50px;" color="secondary" (click)="subirAnuncio()" [disabled]="titulo=='' || contenido=='' || opcionSeleccionada==''" ion-button>Subir</button>
+          <button style="width: 50%; height:50px;" color="danger" (click)="cancelar()" ion-button>Cancelar</button>
+          </ion-item>
+        </div>
+
+</ion-content>
+<ion-fab left bottom>
+    <button ion-fab color="dark" (click)="presentActionSheet()"><ion-icon ios="ios-menu" md="md-menu"></ion-icon></button>
+</ion-fab>

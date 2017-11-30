@@ -9,7 +9,7 @@
 <ion-header>
   
     <ion-navbar>
-      <ion-title>Informacion del aula</ion-title>
+      <ion-title>Información del aula</ion-title>
     </ion-navbar>
   
   </ion-header>
@@ -19,11 +19,11 @@
     <div style="text-align: center;">
       <ion-label style="background-color: #399F8B;height: 40px;font-size: 25px">
           Aula {{Aula.Numero}}
-        </ion-label>
+      </ion-label>
       
       <ion-label style="background-color: #399F8B;height: 40px;font-size: 25px">
           Materia: {{Aula.Materia}}
-        </ion-label>
+      </ion-label>
       
       <br>
 
@@ -32,6 +32,14 @@
       Profesor: {{Aula.Profesor}}
         </ion-label>
       </ion-item>
+      <ion-label *ngIf="perfilActual == 'Alumno' && listaAnuncios.length > 0"  style="background-color: #399F8B;height: 40px;font-size: 25px">
+          Lista de Anuncios
+      </ion-label>
+      <div *ngIf="perfilActual == 'Alumno'">
+      <ion-list *ngFor="let item of listaAnuncios ">
+        <button ion-button  full color="encuestas" style="height:50px;border-radius:20px;" (click)="MostrarAnuncio(item)">{{item.Titulo}}</button>
+      </ion-list>
+      </div>
 
       <table *ngIf="perfilActual == 'Profesor'" class="table"  style="text-align: center;border-radius:70px;">
         <thead style="background-color: #399F8B;">
@@ -48,17 +56,6 @@
         </tbody>
       </table>  
 
-      <!--<ion-item *ngIf="perfilActual == 'Profesor'">
-        <ion-list>
-          <ion-list-header>Lista de alumnos:
-          </ion-list-header>
-          <ion-item *ngFor="let i of Aula.Alumnos"> 
-          <label> {{i.nombre}} {{i.apellido}} </label>
-          <br>
-          <label> Legajo: {{i.legajo}} </label>
-          </ion-item>
-        </ion-list>
-  </ion-item>-->
     </div>
     <ion-item *ngIf="perfilActual == 'Profesor'">
       <canvas style="width:100px;height:100px;padding-right: 20%;" *ngIf="perfilActual == 'Profesor'" id="myChart">

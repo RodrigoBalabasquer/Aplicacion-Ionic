@@ -10,6 +10,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import firebase from "firebase";
 import { Observable } from 'rxjs/Rx';
 import { RespuestasEncuestaPage } from "../respuestas-encuesta/respuestas-encuesta";
+import { GestorAnunciosPage} from "../gestor-anuncios/gestor-anuncios";
 import { AulasPage } from "../aulas/aulas";
 /**
  * Generated class for the ListaAsistenciaPage page.
@@ -51,6 +52,10 @@ export class ListaAsistenciaPage {
   listaDelDiaLegis : any[] = [];
   listaDelDiaLabIV : any[] = [];
 
+  Faltas : AngularFireList<any>;
+  faltas :  Observable<any>;
+  arrayFaltasAux : Array<string> = [];
+
   constructor(public toastCtrl : ToastController, public alertCtrl : AlertController, public afDB : AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl : ActionSheetController) {
     this.usuarioActual = JSON.parse(localStorage.getItem("usuario"));
     this.perfilActual = this.usuarioActual.perfil;
@@ -66,7 +71,15 @@ export class ListaAsistenciaPage {
     this.afDB.list('asistencias/laboratorioiv/alumnos').valueChanges().subscribe(alumno => this.alumnosLabIV = alumno);
     
     this.afDB.list('asistencias/laboratorioiv/listas/'+this.fechaActual[0]+this.fechaActual[1]+"-"+this.fechaActual[3]+this.fechaActual[4]+"-"+this.fechaActual[6]+this.fechaActual[7]+this.fechaActual[8]+this.fechaActual[9]).valueChanges().subscribe(asist => this.listaDelDiaLabIV = asist);
-  }
+  
+    this.Faltas = this.afDB.list('Avisos');
+    this.faltas = this.Faltas.valueChanges();
+    this.faltas.subscribe(falt => {
+      for(let i=0;i<falt.length;i++){
+        this.arrayFaltasAux.push(falt[i].usuario);
+      }
+    });
+}
 
 
   menu() {
@@ -126,7 +139,7 @@ export class ListaAsistenciaPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
             }
           },
           {
@@ -148,99 +161,113 @@ export class ListaAsistenciaPage {
  
       actionSheetAlumno.present();
       break;
-      case "Profesor":
-        let actionSheetProfesor = this.actionSheetCtrl.create({
-        title: 'Menú',
-        buttons: [
-          {
-            text: 'Menu principal',
-            icon: 'home',
-            handler: () => {
-              
-              this.navCtrl.setRoot(MenuPage);
-            },
+    case "Profesor":
+      let actionSheetProfesor = this.actionSheetCtrl.create({
+      title: 'Menú',
+      buttons: [
+        {
+          text: 'Menu principal',
+          icon: 'home',
+          handler: () => {
+            
+            this.navCtrl.setRoot(MenuPage);
           },
-          {
-            text: 'Tomar asistencia',
-            icon: 'create',
-            handler: () => {
-              this.navCtrl.setRoot(ListaAsistenciaPage);
-            }
-          },
-          {
-            text: 'Crear encuestas',
-            icon: 'paper',
-            handler: () => {
-              this.navCtrl.setRoot(GestorEncuestasPage);
-            }
-          },
-          {
-            text: 'Ver resultados de encuestas',
-            icon: 'pie',
-            handler: () => {
-              this.navCtrl.setRoot(RespuestasEncuestaPage);
-            }
-          },
-          {
-            text: 'Ver Aulas',
-            icon: 'md-list',
-            handler: () => {
-              this.navCtrl.setRoot(AulasPage);
-            }
-          },
-          {
-            text: 'Cerrar menú',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-            }
+        },
+        {
+          text: 'Tomar asistencia',
+          icon: 'create',
+          handler: () => {
+            this.navCtrl.setRoot(ListaAsistenciaPage);
           }
-        ]
-      });
+        },
+        {
+          text: 'Gestor de encuestas',
+          icon: 'paper',
+          handler: () => {
+            this.navCtrl.setRoot(GestorEncuestasPage);
+          }
+        },
+        {
+          text: 'Ver resultados de encuestas',
+          icon: 'pie',
+          handler: () => {
+            this.navCtrl.setRoot(RespuestasEncuestaPage);
+          }
+        },
+        {
+          text: 'Ver Aulas',
+          icon: 'md-list',
+          handler: () => {
+            this.navCtrl.setRoot(AulasPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
+          text: 'Cerrar menú',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
 
-      actionSheetProfesor.present();
-      break;
-      case "Administrativo":
-        let actionSheetAdministrativo = this.actionSheetCtrl.create({
-          title: 'Menú',
-          buttons: [
-            {
-              text: 'Menu principal',
-              icon: 'home',
-              handler: () => {
-                
-                this.navCtrl.setRoot(MenuPage);
-              },
-            },
-            {
-              text: 'Tomar asistencia',
-              icon: 'create',
-              handler: () => {
-                this.navCtrl.setRoot(ListaAsistenciaPage);
-              }
-            },
-            {
-              text: 'Administrar alumnos',
-              icon: 'contacts',
-              handler: () => {
-                this.navCtrl.setRoot(RegistroAlumnoPage);
-              }
-            },
-            {
-              text: 'Cerrar menú',
-              icon: 'close',
-              role: 'cancel',
-              handler: () => {
-              }
-            }
-          ]
-      });
+    actionSheetProfesor.present();
+    break;
+  case "Administrativo":
+    let actionSheetAdministrativo = this.actionSheetCtrl.create({
+      title: 'Menú',
+      buttons: [
+        {
+          text: 'Menu principal',
+          icon: 'home',
+          handler: () => {
+            
+            this.navCtrl.setRoot(MenuPage);
+          },
+        },
+        {
+          text: 'Tomar asistencia',
+          icon: 'create',
+          handler: () => {
+            this.navCtrl.setRoot(ListaAsistenciaPage);
+          }
+        },
+        {
+          text: 'Administrar alumnos',
+          icon: 'contacts',
+          handler: () => {
+            this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
+          text: 'Cerrar menú',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
 
-      actionSheetAdministrativo.present();
-      break;
-      default:
-      break;
-    }
+    actionSheetAdministrativo.present();
+    break;
+        default:
+          break;
+      }
   }
 
     
@@ -486,19 +513,74 @@ export class ListaAsistenciaPage {
       alumnosActualizar.set(item.legajo.toString(),item);
     });
 
+    var arrayFaltas: Array<string> = [];
+    //var Faltas = this.afDB.list('Avisos');
+    var aviso: any = {};
+    aviso.Mensaje = "Ha llegado a las 4 faltas ";
+    aviso.Materia = this.materia;
+    var mensanje = "Los siguientes alumnos llegaron a las 4 faltas:<br>";
+    //debugger;
+    for(let i=0;i<alumnosActualizados.length;i++)
+    {
+      if(alumnosActualizados[i].cantFaltas == 4)
+      { 
+        arrayFaltas.push(alumnosActualizados[i].apellido);
+        this.arrayFaltasAux.push(alumnosActualizados[i].apellido);
+        mensanje += alumnosActualizados[i].apellido+"<br>";
+        //aviso.id = arrayFaltas.length;
+        aviso.usuario = alumnosActualizados[i].nombre+" "+alumnosActualizados[i].apellido;
+        this.Faltas.set(this.arrayFaltasAux.length.toString(),aviso);
+      }
+    }
+    
+    let alert1 = this.alertCtrl.create({
+      title: 'Aviso de Faltas',
+      message: mensanje,
+      //buttons: ['OK'],
+      buttons: [
+      {
+        text: 'OK',
+        handler: () => {
+           toast.present();
+          this.navCtrl.setRoot(ListaAsistenciaPage);
+        }
+      }
+    ]
+    });
     let toast = this.toastCtrl.create({
       message: 'Asitencia correctamente actualizada',
       duration: 2500,
       position: 'center'
     });
 
+    if(arrayFaltas.length > 0)
+    {
+      alert1.present();
+    }
+    else{
     toast.present();
-    this.navCtrl.setRoot(ListaAsistenciaPage);
+    this.navCtrl.setRoot(ListaAsistenciaPage);}
   }
 
 
   ionViewDidLoad() {
     
   }
-
+  exportarCSV()
+  {
+    var dataCSV = "Legajo,Apellido,Nombre,Cant. Faltas\r\n";
+    for (var i = 0; i < this.arrayDeAlumnos.length; i++) 
+    {
+      dataCSV += this.arrayDeAlumnos[i].legajo + "," + this.arrayDeAlumnos[i].apellido + "," + this.arrayDeAlumnos[i].nombre + "," + this.arrayDeAlumnos[i].cantFaltas + "\r\n"
+    }
+ 
+    var blob = new Blob([dataCSV]);
+    var a = window.document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    console.log(a.href);
+    a.download = "reporte_faltas.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }

@@ -26,6 +26,8 @@ import { ChartsModule } from 'ng2-charts';
 import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { AulasPage } from "../pages/aulas/aulas";
+import { AnuncioPage} from "../pages/anuncio/anuncio";
+import { GestorAnunciosPage} from "../pages/gestor-anuncios/gestor-anuncios";
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
@@ -56,7 +58,9 @@ firebase.initializeApp(firebaseConfig);
     InformacionPage,
     EstadisticaEncuestaPage,
     RespuestasEncuestaPage,
-    AulasPage
+    AulasPage,
+    GestorAnunciosPage,
+    AnuncioPage
   ],
   imports: [
     BrowserModule,
@@ -84,7 +88,9 @@ firebase.initializeApp(firebaseConfig);
     InformacionPage,
     EstadisticaEncuestaPage,
     RespuestasEncuestaPage,
-    AulasPage
+    AulasPage,
+    GestorAnunciosPage,
+    AnuncioPage
   ],
   providers: [
     StatusBar,

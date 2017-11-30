@@ -13,6 +13,7 @@ import { MenuPage } from "../menu/menu";
 import { RespuestasEncuestaPage } from "../respuestas-encuesta/respuestas-encuesta";
 import { AulasPage } from "../aulas/aulas";
 import { ListaEncuestasPage } from '../lista-encuestas/lista-encuestas';
+import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
 
 @IonicPage()
 @Component({
@@ -176,7 +177,8 @@ export class ModificarEncuestaPage {
     console.log('ionViewDidLoad ModificarEncuestaPage');
   }
   presentActionSheet() {
-    switch (this.perfilActual) {
+    switch (this.perfilActual) 
+    {
       case "Administrador":
         let actionSheetAdm = this.actionSheetCtrl.create({
         title: 'Menú',
@@ -231,7 +233,14 @@ export class ModificarEncuestaPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
+            }
+          },
+          {
+            text: 'Ver Aulas',
+            icon: 'md-list',
+            handler: () => {
+              this.navCtrl.setRoot(AulasPage);
             }
           },
           {
@@ -287,6 +296,13 @@ export class ModificarEncuestaPage {
           }
         },
         {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
           text: 'Cerrar menú',
           icon: 'close',
           role: 'cancel',
@@ -298,46 +314,53 @@ export class ModificarEncuestaPage {
 
     actionSheetProfesor.present();
     break;
-    case "Administrativo":
-      let actionSheetAdministrativo = this.actionSheetCtrl.create({
-        title: 'Menú',
-        buttons: [
-          {
-            text: 'Menu principal',
-            icon: 'home',
-            handler: () => {
-              
-              this.navCtrl.setRoot(MenuPage);
-            },
+  case "Administrativo":
+    let actionSheetAdministrativo = this.actionSheetCtrl.create({
+      title: 'Menú',
+      buttons: [
+        {
+          text: 'Menu principal',
+          icon: 'home',
+          handler: () => {
+            
+            this.navCtrl.setRoot(MenuPage);
           },
-          {
-            text: 'Tomar asistencia',
-            icon: 'create',
-            handler: () => {
-              this.navCtrl.setRoot(ListaAsistenciaPage);
-            }
-          },
-          {
-            text: 'Administrar alumnos',
-            icon: 'contacts',
-            handler: () => {
-              this.navCtrl.setRoot(RegistroAlumnoPage);
-            }
-          },
-          {
-            text: 'Cerrar menú',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-            }
+        },
+        {
+          text: 'Tomar asistencia',
+          icon: 'create',
+          handler: () => {
+            this.navCtrl.setRoot(ListaAsistenciaPage);
           }
-        ]
-      });
-
-      actionSheetAdministrativo.present();
-      break;
-          default:
-            break;
+        },
+        {
+          text: 'Administrar alumnos',
+          icon: 'contacts',
+          handler: () => {
+            this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
+          text: 'Cerrar menú',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+          }
         }
+      ]
+    });
+
+    actionSheetAdministrativo.present();
+    break;
+        default:
+          break;
+      }
   }
 }

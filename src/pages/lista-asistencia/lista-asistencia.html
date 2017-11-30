@@ -75,6 +75,7 @@
   <div [hidden]="tablaBusqueda">
       <ion-item>-MATERIA: {{materia}} <br>-PROFESOR: {{profesor}} <br>-AULA: {{aula}}</ion-item>
       <button ion-button full large style="height: 50px;" color="primary" (click)="tomarAsistencia()">Tomar asistencia</button>
+      <button ion-button full style="height: 50px;" (click)="exportarCSV()">Exportar CSV</button>
         <table class="table" style="text-align: center;border-radius:70px;">
           <thead style="background-color: #399F8B;">
             <th>LEGAJO</th>

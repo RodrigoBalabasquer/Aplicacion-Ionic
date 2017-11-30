@@ -4,6 +4,7 @@ import { RegistroAlumnoPage } from '../registro-alumno/registro-alumno';
 import { GestorEncuestasPage } from '../gestor-encuestas/gestor-encuestas';
 import { ListaAsistenciaPage } from '../lista-asistencia/lista-asistencia';
 import { InformacionPage } from '../informacion/informacion';
+import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
 import { EstadisticaEncuestaPage} from '../estadistica-encuesta/estadistica-encuesta';
 import { LoginPage } from '../login/login';
 import { Component } from '@angular/core';
@@ -48,6 +49,9 @@ export class MenuPage {
   public QR: AngularFireList<any>;
   public qr: Observable<any>;
   public ListaQr: Array<any> = [];
+  public Avisos:AngularFireList<any>;
+  public avisos:Observable<any>;
+  //public ListaAvisos
 
   public Items: AngularFireList<any>;
   public items: Observable<any>;
@@ -80,8 +84,44 @@ export class MenuPage {
           }
           }
       );
-
-
+    var ids :Array<number> = [];
+    var aviso = "";
+    var materias :Array<string> = [];
+    if(this.perfilActual == "Alumno")
+    {
+      this.Avisos = afDB.list('Avisos');
+      this.avisos = this.Avisos.valueChanges();
+      this.avisos.subscribe(
+        a =>{
+          for(let i=0;i<a.length;i++)
+          {
+            if(a[i].usuario == this.nombreComActual)
+            {
+              ids.push(i+1);
+              materias.push(a[i].Materia);
+              aviso = a[i].Mensaje;
+            }
+          }
+          aviso+= " en las siguientes materias:<br>";
+          for(let y=0;y<materias.length;y++)
+          {
+            aviso+= materias[y]+"<br>";
+          }
+          let alert1 = this.alertCtrl.create({
+          title: 'Aviso de Faltas',
+          message: aviso,
+          buttons: ['OK'],
+          });
+          alert1.present();
+          for(let z= 0;z<ids.length;z++)
+          {
+            this.Avisos.remove(ids[z].toString());
+          }
+          //this.Avisos.remove(id.toString());
+        }
+      );
+    }
+    
       
     /*this.Aulas = afDB.list('Aulas');
     this.aulas = this.Aulas.valueChanges();
@@ -312,6 +352,13 @@ export class MenuPage {
           }
         },
         {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
           text: 'Cerrar menú',
           icon: 'close',
           role: 'cancel',
@@ -347,6 +394,13 @@ export class MenuPage {
           icon: 'contacts',
           handler: () => {
             this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
           }
         },
         {

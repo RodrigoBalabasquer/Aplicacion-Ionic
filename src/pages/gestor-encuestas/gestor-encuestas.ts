@@ -1,6 +1,6 @@
 import { ListaEncuestasPage } from '../lista-encuestas/lista-encuestas';
 import { Component } from '@angular/core';
-import { ActionSheetController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController,ActionSheetController, IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
@@ -14,6 +14,7 @@ import { ListaAsistenciaPage } from "../lista-asistencia/lista-asistencia";
 import { MenuPage } from "../menu/menu";
 import { RespuestasEncuestaPage } from "../respuestas-encuesta/respuestas-encuesta";
 import { AulasPage } from "../aulas/aulas";
+import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
 
 /**
  * Generated class for the GestorEncuestasPage page.
@@ -45,7 +46,7 @@ export class GestorEncuestasPage {
   public encuestas: Observable<any>;
   public ListaEncuesta: Array<any> = [];*/
 
-  constructor(public navCtrl: NavController,public actionSheetCtrl : ActionSheetController, afDB: AngularFireDatabase) {
+  constructor(public navCtrl: NavController,public actionSheetCtrl : ActionSheetController, afDB: AngularFireDatabase,public alertControler: AlertController) {
     var item :any = {};
     var fechaFin = [];
     this.usuarioActual = JSON.parse(localStorage.getItem("usuario"));
@@ -73,17 +74,37 @@ export class GestorEncuestasPage {
   {
     this.navCtrl.push(AltaEncuestaPage);
   }
-  eliminarEncuesta(item,)
-  {
-    this.Encuestas.remove(item.id.toString());
-    this.navCtrl.push(GestorEncuestasPage);
+  eliminarEncuesta(item)
+  { 
+    let alert1 = this.alertControler.create({
+    title: 'Confirmación',
+    message: '¿Esta seguro que quiere eliminar la encuesta',
+    buttons: [
+      {
+        text: 'No',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Si',
+        handler: () => {
+          this.Encuestas.remove(item.id.toString());
+          this.navCtrl.setRoot(GestorEncuestasPage);
+        }
+      }
+    ]
+  });
+  alert1.present();
   }
   modificarEncuesta(item)
   {
-    this.navCtrl.push(ModificarEncuestaPage,{codigo:item.Codigo})
+    this.navCtrl.setRoot(ModificarEncuestaPage,{codigo:item.Codigo})
   }
   presentActionSheet() {
-    switch (this.perfilActual) {
+    switch (this.perfilActual) 
+    {
       case "Administrador":
         let actionSheetAdm = this.actionSheetCtrl.create({
         title: 'Menú',
@@ -138,7 +159,14 @@ export class GestorEncuestasPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
+            }
+          },
+          {
+            text: 'Ver Aulas',
+            icon: 'md-list',
+            handler: () => {
+              this.navCtrl.setRoot(AulasPage);
             }
           },
           {
@@ -173,7 +201,7 @@ export class GestorEncuestasPage {
           }
         },
         {
-          text: 'Crear encuestas',
+          text: 'Gestor de encuestas',
           icon: 'paper',
           handler: () => {
             this.navCtrl.setRoot(GestorEncuestasPage);
@@ -194,6 +222,13 @@ export class GestorEncuestasPage {
           }
         },
         {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
           text: 'Cerrar menú',
           icon: 'close',
           role: 'cancel',
@@ -205,47 +240,53 @@ export class GestorEncuestasPage {
 
     actionSheetProfesor.present();
     break;
-    case "Administrativo":
-      let actionSheetAdministrativo = this.actionSheetCtrl.create({
-        title: 'Menú',
-        buttons: [
-          {
-            text: 'Menu principal',
-            icon: 'home',
-            handler: () => {
-              
-              this.navCtrl.setRoot(MenuPage);
-            },
+  case "Administrativo":
+    let actionSheetAdministrativo = this.actionSheetCtrl.create({
+      title: 'Menú',
+      buttons: [
+        {
+          text: 'Menu principal',
+          icon: 'home',
+          handler: () => {
+            
+            this.navCtrl.setRoot(MenuPage);
           },
-          {
-            text: 'Tomar asistencia',
-            icon: 'create',
-            handler: () => {
-              this.navCtrl.setRoot(ListaAsistenciaPage);
-            }
-          },
-          {
-            text: 'Administrar alumnos',
-            icon: 'contacts',
-            handler: () => {
-              this.navCtrl.setRoot(RegistroAlumnoPage);
-            }
-          },
-          {
-            text: 'Cerrar menú',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-            }
+        },
+        {
+          text: 'Tomar asistencia',
+          icon: 'create',
+          handler: () => {
+            this.navCtrl.setRoot(ListaAsistenciaPage);
           }
-        ]
-      });
-
-      actionSheetAdministrativo.present();
-      break;
-          default:
-            break;
+        },
+        {
+          text: 'Administrar alumnos',
+          icon: 'contacts',
+          handler: () => {
+            this.navCtrl.setRoot(RegistroAlumnoPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
+          text: 'Cerrar menú',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+          }
         }
-  }
+      ]
+    });
 
+    actionSheetAdministrativo.present();
+    break;
+        default:
+          break;
+      }
+  }
 }

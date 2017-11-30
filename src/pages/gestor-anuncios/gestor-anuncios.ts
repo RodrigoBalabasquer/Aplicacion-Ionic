@@ -1,113 +1,112 @@
 import { Component } from '@angular/core';
-import { ListaEncuestasPage } from '../lista-encuestas/lista-encuestas';
-import { RegistroProAdmPage } from '../registro-pro-adm/registro-pro-adm';
-import { RegistroAlumnoPage } from '../registro-alumno/registro-alumno';
-import { GestorEncuestasPage } from '../gestor-encuestas/gestor-encuestas';
-import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios'; 
-import { MenuPage} from '../menu/menu';
-import { ListaAsistenciaPage } from '../lista-asistencia/lista-asistencia';
-import { InformacionPage } from '../informacion/informacion';
-import { EstadisticaEncuestaPage} from '../estadistica-encuesta/estadistica-encuesta';
-import { ActionSheetController,IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ActionSheetController,IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireList} from 'angularfire2/database';
+
+import { RegistroProAdmPage } from "../registro-pro-adm/registro-pro-adm";
+import { RegistroAlumnoPage } from '../registro-alumno/registro-alumno';
+import { AltaEncuestaPage} from "../alta-encuesta/alta-encuesta";
+import { ModificarEncuestaPage} from "../modificar-encuesta/modificar-encuesta";
+import { ListaAsistenciaPage } from "../lista-asistencia/lista-asistencia";
+import { MenuPage } from "../menu/menu";
+import { RespuestasEncuestaPage } from "../respuestas-encuesta/respuestas-encuesta";
 import { AulasPage } from "../aulas/aulas";
+import { ListaEncuestasPage} from "../lista-encuestas/lista-encuestas";
+import { GestorEncuestasPage} from "../gestor-encuestas/gestor-encuestas";
+
+
 
 @IonicPage()
 @Component({
-  selector: 'page-respuestas-encuesta',
-  templateUrl: 'respuestas-encuesta.html',
+  selector: 'page-gestor-anuncios',
+  templateUrl: 'gestor-anuncios.html',
 })
-export class RespuestasEncuestaPage {
+export class GestorAnunciosPage {
 
   usuarioActual : any;
-  nombreComActual : any;
   perfilActual : any;
-  emailActual : any;
-  sexoActual : any;
-  nombre : any;
+  nombreComActual: any;
+  crear = false;
+  id = 0;
 
-  public materia: string = "";
-  public Encuestas: AngularFireList<any>;
-  public encuestas: Observable<any>;
-  public Profesores: AngularFireList<any>;
-  public profesores: Observable<any>;
-  public Materias: Array<string>= [];
-  public Cuestionarios: Array<any> = [];
-  public cuestionarios: Array<any> = [];
+  titulo = "";
+  contenido = "";
+  opcionSeleccionada = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public actionSheetCtrl : ActionSheetController,afDB: AngularFireDatabase) {
+  public Anuncios: AngularFireList<any>;
+  public anuncios: Observable<any>;
+  public ListaDeAnuncios: Array<any> = [];
+  public ListaDeAnunciosAux: Array<any> = [];
+
+  constructor(public toastCtrl : ToastController,public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl : ActionSheetController,afDB: AngularFireDatabase) {
     this.usuarioActual = JSON.parse(localStorage.getItem("usuario"));
-    this.nombre = this.usuarioActual.nombre;
-    this.nombreComActual = this.usuarioActual.nombre + " " + this.usuarioActual.apellido;
+    
     this.perfilActual = this.usuarioActual.perfil;
-    this.emailActual = this.usuarioActual.email;
-    this.sexoActual = this.usuarioActual.sexo;
+    this.nombreComActual = this.usuarioActual.nombre + " " + this.usuarioActual.apellido;
 
-    this.Encuestas = afDB.list('Encuestas');
-    this.encuestas = this.Encuestas.valueChanges();
-    this.Profesores = afDB.list('usuarios');
-    this.profesores = this.Profesores.valueChanges();
+    this.Anuncios = afDB.list('Anuncios');
+    this.anuncios = this.Anuncios.valueChanges();
 
-    this.encuestas.subscribe(
-        quest => {for(let i=0;i<quest.length;i++)
-          { 
-             this.Cuestionarios.push(quest[i]);
-          }}
-      );
-    //console.log(this.profesores);
-    this.profesores.subscribe(
-        profesor => {for(let i=0;i<profesor.length;i++)
-          {
-            if(profesor[i].nombre == this.usuarioActual.nombre && profesor[i].apellido == this.usuarioActual.apellido)
-            {
-              for(let y=0; y < profesor[i].materias.length;y++)
-              {
-                this.Materias.push(profesor[i].materias[y]);
-              }
-              break;
-            }
-          }this.materia = this.Materias[0];}
-      );
+    this.anuncios.subscribe(
+        anun => {for(let i=0;i<anun.length;i++)
+          {   
+             this.ListaDeAnunciosAux.push(anun[i]);
+             if(anun[i].Creador == (this.usuarioActual.nombre + " " + this.usuarioActual.apellido))
+             { 
+               this.ListaDeAnuncios.push(anun[i]);
+             }
+          }});
   }
-  traerEncuestas()
-  { 
-    this.cuestionarios = [];
-    for(let i = 0;i<this.Cuestionarios.length;i++)
-    { 
-      if(this.Cuestionarios[i].Materia == this.materia && this.Cuestionarios[i].Profesor == this.nombreComActual)
-      {
-        //var finEncuesta = this.Cuestionarios[i].TiempoFin;
-        //if(finEncuesta > Date.now())
-          this.cuestionarios.push(this.Cuestionarios[i]);
-      }
-    }
-  }
-  VerRespuesta(dato)
+  crearAnuncio()
   {
-    var Cuestionario:any = {};
-    for(let i = 0;i<this.Cuestionarios.length;i++)
-    { 
-      if(this.Cuestionarios[i].Codigo == dato)
-      {
-        Cuestionario = this.Cuestionarios[i];
-        break;
-      }
+    this.crear = true;
+    this.id = 0;
+  }
+  cancelar()
+  {
+    this.crear = false;
+  }
+  eliminarAnuncio(item)
+  {
+    this.Anuncios.remove(item.id.toString());
+    this.navCtrl.push(GestorAnunciosPage);
+  }
+  modificarAnuncio(item)
+  { 
+    this.crear = true;
+    this.contenido = item.Contenido;
+    this.titulo = item.Titulo;
+    this.opcionSeleccionada = item.Aula;
+    this.id = item.id;
+  }
+  subirAnuncio()
+  { 
+    let toast = this.toastCtrl.create({
+          message: 'Anuncio Subido exitosamente',
+          duration: 2500,
+          position: 'center'
+        });
+    var item: any = {};
+    item.Creador = (this.usuarioActual.nombre + " " + this.usuarioActual.apellido);
+    item.Titulo = this.titulo;
+    item.Contenido = this.contenido;
+    item.Aula = this.opcionSeleccionada;
+    if(this.id == 0){
+    var id = (this.ListaDeAnunciosAux.length+1).toString();
+    item.id = id;
+    this.Anuncios.set(id,item);
     }
-    if(Cuestionario.Preguntas.length == 1)
-    {
-      this.navCtrl.push(EstadisticaEncuestaPage,{"codigo":Cuestionario.Codigo,"tabla":false});
+    else{ 
+      item.id = this.id;
+      this.Anuncios.update(item.id.toString(),item);
     }
-    else
-    {
-      this.navCtrl.push(EstadisticaEncuestaPage,{"codigo":Cuestionario.Codigo,"tabla":true});
-    }
-    console.log(Cuestionario);
+    toast.present();
+    this.navCtrl.setRoot(GestorAnunciosPage);
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RespuestasEncuestaPage');
+    console.log('ionViewDidLoad GestorAnunciosPage');
   }
   presentActionSheet() {
     switch (this.perfilActual) 

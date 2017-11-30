@@ -2,6 +2,9 @@ import { GestorEncuestasPage } from '../gestor-encuestas/gestor-encuestas';
 import { ListaEncuestasPage } from '../lista-encuestas/lista-encuestas';
 import { RegistroProAdmPage } from '../registro-pro-adm/registro-pro-adm';
 import { ListaAsistenciaPage } from "../lista-asistencia/lista-asistencia";
+import { AulasPage} from '../aulas/aulas';
+import { GestorAnunciosPage} from '../gestor-anuncios/gestor-anuncios';
+import { RespuestasEncuestaPage} from '../respuestas-encuesta/respuestas-encuesta';
 import { MenuPage } from "../menu/menu";
 import { Observable } from 'rxjs/Rx';
 import { Component } from '@angular/core';
@@ -390,7 +393,8 @@ export class RegistroAlumnoPage {
   }
 
   presentActionSheet() {
-    switch (this.perfilActual) {
+    switch (this.perfilActual) 
+    {
       case "Administrador":
         let actionSheetAdm = this.actionSheetCtrl.create({
         title: 'Menú',
@@ -445,7 +449,14 @@ export class RegistroAlumnoPage {
             text: 'Realizar encuestas',
             icon: 'paper',
             handler: () => {
-              this.navCtrl.setRoot(ListaEncuestasPage);
+              this.navCtrl.setRoot(ListaEncuestasPage,{booleano:false});
+            }
+          },
+          {
+            text: 'Ver Aulas',
+            icon: 'md-list',
+            handler: () => {
+              this.navCtrl.setRoot(AulasPage);
             }
           },
           {
@@ -480,10 +491,31 @@ export class RegistroAlumnoPage {
           }
         },
         {
-          text: 'Crear encuestas',
+          text: 'Gestor de encuestas',
           icon: 'paper',
           handler: () => {
             this.navCtrl.setRoot(GestorEncuestasPage);
+          }
+        },
+        {
+          text: 'Ver resultados de encuestas',
+          icon: 'pie',
+          handler: () => {
+            this.navCtrl.setRoot(RespuestasEncuestaPage);
+          }
+        },
+        {
+          text: 'Ver Aulas',
+          icon: 'md-list',
+          handler: () => {
+            this.navCtrl.setRoot(AulasPage);
+          }
+        },
+        {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
           }
         },
         {
@@ -498,7 +530,7 @@ export class RegistroAlumnoPage {
 
     actionSheetProfesor.present();
     break;
-    case "Administrativo":
+  case "Administrativo":
     let actionSheetAdministrativo = this.actionSheetCtrl.create({
       title: 'Menú',
       buttons: [
@@ -525,6 +557,13 @@ export class RegistroAlumnoPage {
           }
         },
         {
+          text: 'Gestor de anuncios',
+          icon: 'ios-notifications',
+          handler: () => {
+            this.navCtrl.setRoot(GestorAnunciosPage);
+          }
+        },
+        {
           text: 'Cerrar menú',
           icon: 'close',
           role: 'cancel',
@@ -539,6 +578,6 @@ export class RegistroAlumnoPage {
         default:
           break;
       }
-    }
+  }
 
 }
